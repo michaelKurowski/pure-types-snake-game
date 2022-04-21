@@ -34,9 +34,7 @@
 // type result2 = ReturnType<setRecord<result, 3, 5>>
 
 
-type SetArrayElement<arr extends Array<any>, index extends number, value> = {
-  [key in keyof arr]: key extends `${index}` ? value : arr[key]
-}
+
 
 
 
@@ -134,58 +132,41 @@ type gameLoop<callback> = { [i in number]: callback }
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
 // More info, new in TS: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-5.html#tail-recursion-elimination-on-conditional-types
-type Digit = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-type incrementDigit<digit extends number> = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10][digit]
-type decrementDigit<digit extends number> = [-1, 0, 1, 2, 3, 4, 5, 6, 7][digit]
+
 
 // not optimzied
 // type sum<a extends number, b extends number> = a extends 0 ? b : sum<incrementDigit<b>, decrementDigit<a>>
 
-//Optimized for tail recursion
-type RecurSum<a extends number, b extends number> = InnerSum<a, b>
-type InnerSum<a extends number, b extends number> = 
-  a extends 0 ? b : InnerSum<decrementDigit<a>, incrementDigit<b>> 
 
 
-type mojwynik = RecurSum<5,5>
 
-type DoubleDigit = Digit[number][]
+// type mojwynik = RecurSum<5,5>
 
-type GetArrayLengthWrapper<arr extends DoubleDigit> = GetArrayLength<arr, 0>
-type GetArrayLength<arr extends DoubleDigit, index extends number> =
-  arr[index] extends undefined ? index : GetArrayLength<arr,  incrementDigit<index>>
 
-type IncrementDoubleDigit<doubleDigit extends DoubleDigit> = IncrementDoubleDigitHelper<doubleDigit, 0>
 
-type IncrementDoubleDigitHelper<doubleDigit extends DoubleDigit, index extends number> =
-  doubleDigit[incrementDigit<index>] extends undefined 
-    ? incrementDigit<doubleDigit[index]> extends 10
-      ? SetArrayElement<SetArrayElement<doubleDigit, index, 0>, decrementDigit<index>, incrementDigit<doubleDigit[decrementDigit<index>]>>
-      : SetArrayElement<doubleDigit, index, incrementDigit<doubleDigit[index]>>
-    : IncrementDoubleDigitHelper<doubleDigit, incrementDigit<index>>
 
-type przyklad = IncrementDoubleDigit<[1, 0, 1, 9]>
+// type przyklad = IncrementDoubleDigit<[1, 0, 1, 9]>
 
 
 
 // Kokos robi multigit do parse
 // Marcin robi sleep function
-type parseSingleDigit<x> =
-x extends '0' ? 0 :
-x extends '1' ? 1 :
-x extends '2' ? 2 :
-x extends '3' ? 3 :
-x extends '4' ? 4 :
-x extends '5' ? 5 :
-x extends '6' ? 6 :
-x extends '7' ? 7 :
-x extends '8' ? 8 :
-x extends '9' ? 9 : never;
+// type parseSingleDigit<x> =
+// x extends '0' ? 0 :
+// x extends '1' ? 1 :
+// x extends '2' ? 2 :
+// x extends '3' ? 3 :
+// x extends '4' ? 4 :
+// x extends '5' ? 5 :
+// x extends '6' ? 6 :
+// x extends '7' ? 7 :
+// x extends '8' ? 8 :
+// x extends '9' ? 9 : never;
 
-type parseDigitsHelper<x, acc extends number[]> =
-  x extends `${infer elem}${infer rest}` ? parseDigitsHelper<rest, [...acc, parseSingleDigit<elem>]> : acc;
+// type parseDigitsHelper<x, acc extends number[]> =
+//   x extends `${infer elem}${infer rest}` ? parseDigitsHelper<rest, [...acc, parseSingleDigit<elem>]> : acc;
 
-type parseDigits<x> = parseDigitsHelper<x, []>
+// type parseDigits<x> = parseDigitsHelper<x, []>
 /*
   TODO:
   - subtracting multidigits
