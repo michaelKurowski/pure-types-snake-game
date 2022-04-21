@@ -12,10 +12,6 @@ type sumSingleDigitHelper<a extends number, b extends number> =
 
 export type DoubleDigit = Digit[number][]
 
-type GetArrayLengthWrapper<arr extends DoubleDigit> = GetArrayLength<arr, 0>
-type GetArrayLength<arr extends DoubleDigit, index extends number> =
-  arr[index] extends undefined ? index : GetArrayLength<arr,  incrementSingleDigit<index>>
-
 export type increment<doubleDigit extends DoubleDigit> = incrementHelper<doubleDigit, 0>
 
 type incrementHelper<doubleDigit extends DoubleDigit, index extends number> =
