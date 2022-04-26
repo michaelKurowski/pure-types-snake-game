@@ -49,3 +49,7 @@ setArrayElement<doubleDigit, index, incrementSingleDigit<doubleDigit[index]>>
 export type sumDigit<firstDigit extends DoubleDigit, secondDigit extends DoubleDigit> = sumDigitHelper<firstDigit, secondDigit>
 
 type sumDigitHelper<firstDigit extends DoubleDigit, secondDigit extends DoubleDigit> = secondDigit extends Array<0> ? firstDigit : sumDigitHelper<increment<firstDigit>, decrement<secondDigit>>
+
+export type subtractDigit<firstDigit extends DoubleDigit, secondDigit extends DoubleDigit> = substractDigitHelper<firstDigit, secondDigit>
+
+type substractDigitHelper<firstDigit extends DoubleDigit, secondDigit extends DoubleDigit> = secondDigit extends Array<0> ? firstDigit : substractDigitHelper<decrement<firstDigit>, decrement<secondDigit>>
