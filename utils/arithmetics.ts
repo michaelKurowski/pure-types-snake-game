@@ -29,7 +29,7 @@ setArrayElement<doubleDigit, index, decrementSingleDigit<doubleDigit[index]> >
 //       : setArrayElement<doubleDigit, index, decrementSingleDigit<doubleDigit[index]>>
 //     : decrementHelper<doubleDigit, incrementSingleDigit<index>>
 
-export type DoubleDigit = Digit[number][]
+export type DoubleDigit = Digit[0 & 1 & 2 & 3 & 4 & 5][]
 
 export type increment<doubleDigit extends DoubleDigit> = incrementHelper<doubleDigit, decrementSingleDigit<doubleDigit["length"]>>
 
