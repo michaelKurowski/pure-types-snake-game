@@ -58,6 +58,14 @@ type substractDigitHelper<firstDigit extends DoubleDigit, secondDigit extends Do
 export type multiplyDigit<multiplicand extends DoubleDigit, multiplier extends DoubleDigit> = multiplyDigitHelper<multiplicand, multiplier>
 
 type multiplyDigitHelper<multiplicand extends DoubleDigit, multiplier extends DoubleDigit, result extends DoubleDigit = [0]> = multiplier extends 0[] ? result : multiplyDigitHelper<multiplicand, decrement<multiplier>, sumDigit<multiplicand, result>>
+
+export type divide<divided extends DoubleDigit, divider extends DoubleDigit> = divideHelper<divided, divider, [0,0]>
+
+type divideHelper<divided extends DoubleDigit, divider extends DoubleDigit, result extends DoubleDigit> = 
+isSmaller<divided, divider> extends true ? result : divideHelper<subtractDigit<divided, divider>, divider, increment<result>>
+
+type aa = divide<[2,0], [1,0]>
+type bb = subtractDigit<[2,0], [1,0]>
 // type returnSmaller<digitA extends DoubleDigit, digitB extends DoubleDigit>
 type equals<valueA, valueB> = valueA extends valueB ? true : false
 type returnBigger<digitA extends DoubleDigit, digitB extends DoubleDigit>
@@ -74,6 +82,22 @@ type returnBiggerHelper<
   digitA extends [0] ? originalDigitB : 
   digitB extends [0] ? originalDigitA :
   returnBiggerHelper<originalDigitA, originalDigitB,  decrement<digitA>, decrement<digitB>>
+
+type isSmaller<digitA extends DoubleDigit, digitB extends DoubleDigit>
+=
+isSmallerHelper<digitA, digitB, digitA, digitB>
+
+type isSmallerHelper<
+  originalDigitA extends DoubleDigit,
+  originalDigitB extends DoubleDigit,
+  digitA extends DoubleDigit,
+  digitB extends DoubleDigit>
+  =
+  equals<digitA, digitB> extends true ? originalDigitA :
+  digitA extends [0] ? true : 
+  digitB extends [0] ? false :
+  isSmallerHelper<originalDigitA, originalDigitB,  decrement<digitA>, decrement<digitB>>
+
 
 type returnSmaller<digitA extends DoubleDigit, digitB extends DoubleDigit>
   =
