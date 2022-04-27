@@ -12,5 +12,4 @@ x extends '9' ? 9 : never;
 
 type parseDigitsHelper<x, acc extends number[]> =
   x extends `${infer elem}${infer rest}` ? parseDigitsHelper<rest, [...acc, parseSingleDigit<elem>]> : acc;
-
 export type parseDigits<x> = parseDigitsHelper<x, []>
