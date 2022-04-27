@@ -1,5 +1,5 @@
 import { setArrayElement } from './arrays'
-
+import { parseDigits, parseDigitsHelper } from './typesConversions'
 
 type Digit = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 export type incrementSingleDigit<digit extends number> = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10][digit]
@@ -34,7 +34,8 @@ export type DoubleDigit = Digit[number][]
 export type increment<doubleDigit extends DoubleDigit> = incrementHelper<doubleDigit, decrementSingleDigit<doubleDigit["length"]>>
 
 type incrementHelper<doubleDigit extends DoubleDigit, index extends number> = index extends -1 ? doubleDigit : 
-doubleDigit[index] extends 9 ?  
+doubleDigit[index] extends 9 ?
+index extends 0 ? [1, ...setArrayElement<doubleDigit, 0, 0>] :
 incrementHelper<setArrayElement<doubleDigit, index, 0>, decrementSingleDigit<index>> : 
 setArrayElement<doubleDigit, index, incrementSingleDigit<doubleDigit[index]>>
 
@@ -53,3 +54,70 @@ type sumDigitHelper<firstDigit extends DoubleDigit, secondDigit extends DoubleDi
 export type subtractDigit<firstDigit extends DoubleDigit, secondDigit extends DoubleDigit> = substractDigitHelper<firstDigit, secondDigit>
 
 type substractDigitHelper<firstDigit extends DoubleDigit, secondDigit extends DoubleDigit> = secondDigit extends Array<0> ? firstDigit : substractDigitHelper<decrement<firstDigit>, decrement<secondDigit>>
+
+// type returnSmaller<digitA extends DoubleDigit, digitB extends DoubleDigit>
+type equals<valueA, valueB> = valueA extends valueB ? true : false
+type returnBigger<digitA extends DoubleDigit, digitB extends DoubleDigit>
+  =
+  returnBiggerHelper<digitA, digitB, digitA, digitB>
+
+type returnBiggerHelper<
+  originalDigitA extends DoubleDigit,
+  originalDigitB extends DoubleDigit,
+  digitA extends DoubleDigit,
+  digitB extends DoubleDigit>
+  =
+  equals<digitA, digitB> extends true ? originalDigitA :
+  digitA extends [0] ? originalDigitB : 
+  digitB extends [0] ? originalDigitA :
+  returnBiggerHelper<originalDigitA, originalDigitB,  decrement<digitA>, decrement<digitB>>
+
+type returnSmaller<digitA extends DoubleDigit, digitB extends DoubleDigit>
+  =
+  returnSmallerHelper<digitA, digitB, digitA, digitB>
+
+type returnSmallerHelper<
+  originalDigitA extends DoubleDigit,
+  originalDigitB extends DoubleDigit,
+  digitA extends DoubleDigit,
+  digitB extends DoubleDigit>
+  =
+  equals<digitA, digitB> extends true ? originalDigitA :
+  digitA extends [0] ? originalDigitA : 
+  digitB extends [0] ? originalDigitB  :
+  returnSmallerHelper<originalDigitA, originalDigitB,  decrement<digitA>, decrement<digitB>>
+
+type getShorterMultipleDigit<digitA extends DoubleDigit, digitB extends DoubleDigit> =
+  returnSmallerHelper<digitA, digitB, parseDigits<`${digitA["length"]}`>, parseDigits<`${digitB["length"]}`>>
+
+type getLongerMultipleDigit<digitA extends DoubleDigit, digitB extends DoubleDigit> =
+  returnBiggerHelper<digitA, digitB, parseDigits<`${digitA["length"]}`>, parseDigits<`${digitB["length"]}`>>
+
+// Doesn't seem to work properly
+type getMultipleDigitLengthDifference<digitA extends DoubleDigit, digitB extends DoubleDigit> =
+  subtractDigit<
+
+    getLongerMultipleDigit<
+      parseDigits<`${digitA["length"]}`>,
+      parseDigits<`${digitB["length"]}`>
+    >,
+    getShorterMultipleDigit<
+      parseDigits<`${digitA["length"]}`>,
+      parseDigits<`${digitB["length"]}`>
+    >,
+  >
+type rez = getMultipleDigitLengthDifference<[1,2,3,4],  [1,2]>
+  // type rez<a extends DoubleDigit, b extends DoubleDigit> =
+  //   getShorterMultipleDigit<a, b> extends infer x ?
+  //     x extends true | false ? [0] : x : never
+
+      // type eksperyment = true | false
+// type getShorterMultipleDigitHelper<digitA extends DoubleDigit, digitB extends DoubleDigit> =
+//   equals<digitA, digitB> extends true ? true :
+//   digitA extends [0] ? originalDigitA : 
+//   digitB extends [0] ? originalDigitB  :
+//   returnSmallerHelper<originalDigitA, originalDigitB,  decrement<digitA>, decrement<digitB>>
+// type rez = decrement<[1, 0]>
+// type result = returnBigger<[5],[2]>
+
+// type result2 = returnSmaller<[2], [5]>
