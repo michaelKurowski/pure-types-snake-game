@@ -70,9 +70,15 @@ export type modulo<divided extends DoubleDigit, divider extends DoubleDigit> = m
 type moduloHelper<divided extends DoubleDigit, divider extends DoubleDigit, result extends DoubleDigit> = 
 isSmaller<divided, divider> extends true ? divided : moduloHelper<subtractDigit<divided, divider>, divider, increment<result>>
 
-export type random<seed extends DoubleDigit, mod extends DoubleDigit = [2,5]> = divide<[...modulo<seed, mod>, 0, 0], mod>
+//export type random<seed extends DoubleDigit, mod extends DoubleDigit = [2,5]> = multiplyDigit<[...modulo<seed, mod>, 0], mod>
 
-type rand = random<[2,7,8,9]>
+export type random<k extends DoubleDigit, seed extends DoubleDigit = [1,1], a extends DoubleDigit = [5], mod extends DoubleDigit = [7]> = randomHelper<seed, a, mod, k>
+
+type randomHelper<seed extends DoubleDigit, a extends DoubleDigit, mod extends DoubleDigit, k extends DoubleDigit> = 
+k extends 0[] ? seed : randomHelper<modulo<multiplyDigit<a, seed>, mod>, a, mod, decrement<k>> 
+
+type rand = random<[1,9]>
+
 type equals<valueA, valueB> = valueA extends valueB ? true : false
 type returnBigger<digitA extends DoubleDigit, digitB extends DoubleDigit>
   =

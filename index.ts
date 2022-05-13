@@ -3,6 +3,9 @@
 // type Pointer = 4
 // type Register = Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, null >
 
+import { random } from "./utils/arithmetics"
+import { arrayToString, doubleDigitToNumber, doubleDigitToString } from "./utils/typesConversions"
+
 
 /// START of UTILS FUNCTIONS COPIED FROM THE INTERNT
 // type OptionalPropertyNames<T> =
@@ -50,19 +53,16 @@
 
 
 type Board = [
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null],
 ]
 
 type BoardAbstract = [
@@ -114,17 +114,19 @@ type mapColumn<column extends Board[number], y, value> =
   {[elementNumber in keyof column]: elementNumber extends `${y}` ? value : column[elementNumber]}
 
 
-type result = mapColumn<[null, null, null, null, null, null, null, null, null, null, null, null, null], 2, 3>
+// type result = mapColumn<[null, null, null, null, null, null, null, null, null, null], 2, 3>
 
-type markBoard<board extends ((null | number)[])[], x extends number, y extends number, value extends number> =
+type markBoard<board extends ((null | string)[])[], x extends number | string, y extends number | string, value extends string> =
    {
     [rowNumber in keyof board]: rowNumber extends `${x}` ? mapColumn<board[rowNumber], y, value> : board[rowNumber]
   }
 
 
-type happyResult = markBoard<smallboard, 0, 0, 5>
+type happyResult = markBoard<Board, 0, 0, 's'>
 
-
+type x =  doubleDigitToString<random<[1]>>
+type y = doubleDigitToString<random<[2]>>
+type boardfeed = arrayToString<markBoard<Board, x, y, 's'>[6]>
 
 type gameLoop<callback> = { [i in number]: callback }
 
