@@ -1,4 +1,4 @@
-
+import { increment } from './utils/arithmetics';
 
 // type Pointer = 4
 // type Register = Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, null >
@@ -128,8 +128,22 @@ type x =  doubleDigitToString<random<[1]>>
 type y = doubleDigitToString<random<[2]>>
 type boardfeed = arrayToString<markBoard<Board, x, y, 's'>[6]>
 
-type gameLoop<callback> = { [i in number]: callback }
+// type takeFirstLetter<stringOfChars> = stringOfChars extends `${infer firstChar}${infer rest}` ? [firstChar, rest] : never
 
+type moveSnake<command, snakeCoordinates> = never // TODO
+
+// snake coords is array of arrays
+// [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
+type gameLoop<board, commands> = gameTick<board, [[5, 5]], commands>
+type gameTick<board, snakeCoordinates, commands> = 
+  commands extends `${infer currentCommand}${infer nextCommands}` ?
+    gameTick<
+      board,
+      moveSnake<currentCommand, snakeCoordinates>,
+      nextCommands
+    > :
+    never
+  
 
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
