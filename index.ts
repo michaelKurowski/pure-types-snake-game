@@ -143,8 +143,17 @@ type gameTick<board, snakeCoordinates, commands> =
       nextCommands
     > :
     never
-  
+/*
+  TODO:
+  checkIsCoordinateWithinMapBoundries<coordinate>
+    sprawdza czy koordunat nie ma x/y ustawionego na -1/11
+  checkIsCoordinateOnList<coordinate, list>
+    sprawdza czy koordynat znajduje sie na liscie, 
+    moze byc uzywany do sprawdzenia czy w nastepnym kroku
+    skoliduje ze swoim cialem lub smaczkiem gdzie cialo to bedzie lista np koordynatow.
+    Przy smaczku powinien rowniez zwracac ktory to smaczek
 
+*/
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
 // More info, new in TS: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-5.html#tail-recursion-elimination-on-conditional-types
