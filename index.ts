@@ -155,14 +155,12 @@ type gameTick<board, snakeCoordinates, commands> =
     return null // game over
   if checkIsCoordinateOnList<newSnakeHead, foodChunkCoordinates> 
     snakeCoordinates = [newSnakeHead ,...snakeCoordinates]
-    foodCoordinates = randomCoordinate<returnEvenNumber<newSnakeHead[0], newSnakeHead[1]>>
-    foodCoordinates = 
-      [...foodCoordinates, randomCoordinate<[...foodCoordinates, ...snakeCoordinates]>]
+    foodChunkCoordinates = randomCoordinate<returnEvenNumber<newSnakeHead[0], newSnakeHead[1]>>
   else 
     snakeCoordinates = [...beginningOfSnake , lastElement]
     snakeCoordinates = [newSnakeHead ,...snakeCoordinates]
   fi
-  gameTick<board, snakeCoordinates, restOfCommands, foodCoordinates>
+  gameTick<board, snakeCoordinates, restOfCommands, foodChunkCoordinates>
 
   TODO: randomCoordinate<excludedList>, removeCoordinateFromList<coord, list>
 */
