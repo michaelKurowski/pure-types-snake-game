@@ -139,7 +139,7 @@ type moveSnake<command, snakeCoordinates> = never // TODO
 // [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
 
 type helloworld = startGame<
-  'w'
+  ''
 >
 type helloworld2 = render<[2,2], [[5, 5]]>
 type startGame<
@@ -246,13 +246,11 @@ type checkIsCoordinateOnList<coordinate extends [number, number], list extends [
 type randomCoordinate<headX extends Digit[number], headY extends Digit[number]> = [random<[headX]>, random<[headY]>] extends [infer X, infer Y] ? [X[decrementSingleDigit<X["length"]>],Y[decrementSingleDigit<Y["length"]>]] : never;
 
 
-
-            
+type boardPadding = '                                    '
+type columnNumber = '  *    0    1    2    3    4    5    6    7    8    9'            
 type render<foodCoordinates extends number[], snakeCoordinates extends number[][]> = 
-array2DToString<[
-  ['                                    '], 
-  ...markSnakOnBoard<markBoard<Board, foodCoordinates[0], foodCoordinates[1], '  x  '>, snakeCoordinates>
-]>
+`${boardPadding}${columnNumber}${boardPadding}${array2DToString<markSnakOnBoard<markBoard<Board, foodCoordinates[0], foodCoordinates[1], '  x  '>, snakeCoordinates>>}`
+
 
 type markSnakOnBoard<board extends Board, snakeCoordinates  extends number[][]> = markSnakOnBoardHelper<board, snakeCoordinates, 0> 
 type markSnakOnBoardHelper<board extends Board, snakeCoordinates  extends number[][], index extends number> = index extends snakeCoordinates['length'] ? board : 

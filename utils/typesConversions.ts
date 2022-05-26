@@ -42,4 +42,4 @@ export type stringToArray<s extends string> = stringToArrayHelper<s>;
 type stringToArrayHelper<s extends string, acc extends string[] = []> = s extends `${infer char}${infer rest}` ? stringToArrayHelper<rest, [...acc, char]> : acc;
 
 export type array2DToString<array2D extends any[][]> = array2DToStringHelper<array2D, 0>
-type array2DToStringHelper<array2D extends any[][], index extends number, result extends string = ''> = index extends array2D['length'] ? result : array2DToStringHelper<array2D, incrementSingleDigit<index>, `${result}|${doubleDigitToString<array2D[index], ' '>}`>
+type array2DToStringHelper<array2D extends any[][], index extends number, result extends string = ''> = index extends array2D['length'] ? result : array2DToStringHelper<array2D, incrementSingleDigit<index>, `${result}${index}${doubleDigitToString<array2D[index], ' '>}`>
