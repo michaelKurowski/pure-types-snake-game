@@ -157,7 +157,7 @@ type gameTick<board, snakeCoordinates, commands> =
   snakeCoordinates = [moveCoordinate<command, head> ,...snakeCoordinates]
 */
 
-type moveCoordinate<command, coordinate> = 
+type moveCoordinate<command extends 'a' | 'w' | 's' | 'd', coordinate extends [number, number]> = 
   command extends 'a' ? [decrementSingleDigit<coordinate[0]>, coordinate[1]] :
   command extends 'w' ? [coordinate[0], decrementSingleDigit<coordinate[1]>] :
   command extends 's' ? [coordinate[0], incrementSingleDigit<coordinate[1]>] :
