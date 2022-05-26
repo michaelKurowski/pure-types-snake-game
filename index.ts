@@ -53,6 +53,7 @@ import { array2DToString, doubleDigitToNumber, doubleDigitToString } from "./uti
 
 
 type Board = [
+  ['                                                        '],
   [null, null, null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null, null, null, null],
@@ -126,10 +127,11 @@ type happyResult = markBoard<Board, 0, 0, 's'>
 
 type x =  doubleDigitToString<random<[1]>>
 type y = doubleDigitToString<random<[2]>>
-//type boardfeed = array2DToString<markBoard<Board, x, y, 's'>[6]>
+//type boardfeed = arrayToString<markBoard<Board, x, y, 's'>[6]>
 
 type gameLoop<callback> = { [i in number]: callback }
 
+type board = array2DToString<Board>
 
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
