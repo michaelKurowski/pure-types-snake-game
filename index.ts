@@ -139,8 +139,9 @@ type moveSnake<command, snakeCoordinates> = never // TODO
 // [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
 
 type helloworld = startGame<
-  'asdwd'
+  'w'
 >
+type helloworld2 = render<[2,2], [[5, 5]]>
 type startGame<
   commmands
 > = gameLoop<Board, commmands>
@@ -153,10 +154,10 @@ type gameLoop<board, commands> = gameTick<board, [[5, 5]], commands, [2,2]>
 //       nextCommands
 //     > :
 //     never
+
 type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[], foodChunkCoordinates> = 
   commands extends `${infer currentCommand}${infer restOfCommands}` ?
-    restOfCommands extends '' ? render<foodCoordinates, snakeCoordinates>
-    : snakeCoordinates[0] extends infer head ? 
+    snakeCoordinates[0] extends infer head ? 
       moveCoordinate<currentCommand, head> extends infer newHead ?
         checkIsCoordinateWithinMapBoundries<newHead> extends true ?
           checkIsCoordinateOnList<newHead, snakeCoordinates> extends false ?
@@ -186,7 +187,7 @@ type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[
         : null
       : never
     : never
-  : never
+  : render<foodChunkCoordinates, snakeCoordinates>
                 
     // : render<board, snakeCoordinates, foodChunkCoordinates>
 /*
@@ -255,7 +256,7 @@ array2DToString<[
 
 type markSnakOnBoard<board extends Board, snakeCoordinates  extends number[][]> = markSnakOnBoardHelper<board, snakeCoordinates, 0> 
 type markSnakOnBoardHelper<board extends Board, snakeCoordinates  extends number[][], index extends number> = index extends snakeCoordinates['length'] ? board : 
-markSnakOnBoardHelper<markBoard<board, snakeCoordinates[index][0], snakeCoordinates[index][1], 's'>, snakeCoordinates, incrementSingleDigit<index>>
+markSnakOnBoardHelper<markBoard<board, snakeCoordinates[index][1], snakeCoordinates[index][0], 's'>, snakeCoordinates, incrementSingleDigit<index>>
 
 type testtt = render<[3,3], [[4,5], [4,4], [4,3], [4,2]]>
 
