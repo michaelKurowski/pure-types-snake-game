@@ -28,9 +28,10 @@ type parseDigitsHelper<x, acc extends number[]> =
 export type parseDigits<x> = parseDigitsHelper<x, []>
 
 
-export type doubleDigitToString<digit extends any[]> = leftTrimNumStirng<arrayToStringHelper<digit, 0>>
-type arrayToStringHelper<digit extends any[], index extends number, result extends string = ''> = 
-index extends digit["length"] ? result : arrayToStringHelper<digit, incrementSingleDigit<index>, `${result}${digit[index]}`>  
+export type doubleDigitToString<digit extends any[], separator extends string =''> = leftTrimNumStirng<doubleDigitToStringHelper<digit, 0, separator>>
+
+type doubleDigitToStringHelper<digit extends any[], index extends number, separator extends string, result extends string = ''> = 
+index extends digit["length"] ? result : doubleDigitToStringHelper<digit, incrementSingleDigit<index>, separator, `${result}${digit[index]}${separator}`>  
 
 export type stringToNumber<s extends string> = stringToNumberHelper<s>
 type stringToNumberHelper<s extends string, A extends any[] = []> = s extends keyof [0, ...A] ? A["length"] : stringToNumberHelper<s, [0, ...A]>
@@ -39,3 +40,6 @@ export type doubleDigitToNumber<digit extends DoubleDigit> = stringToNumber<arra
 
 export type stringToArray<s extends string> = stringToArrayHelper<s>;
 type stringToArrayHelper<s extends string, acc extends string[] = []> = s extends `${infer char}${infer rest}` ? stringToArrayHelper<rest, [...acc, char]> : acc;
+
+export type array2DToString<array2D extends any[][]> = array2DToStringHelper<array2D, 0>
+type array2DToStringHelper<array2D extends any[][], index extends number, result extends string = ''> = index extends array2D['length'] ? result : array2DToStringHelper<array2D, incrementSingleDigit<index>, `${result} ${doubleDigitToString<array2D[index], ' '>}`>

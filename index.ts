@@ -4,7 +4,7 @@
 // type Register = Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, null >
 
 import { random } from "./utils/arithmetics"
-import { arrayToString, doubleDigitToNumber, doubleDigitToString } from "./utils/typesConversions"
+import { array2DToString, doubleDigitToNumber, doubleDigitToString } from "./utils/typesConversions"
 
 
 /// START of UTILS FUNCTIONS COPIED FROM THE INTERNT
@@ -53,16 +53,16 @@ import { arrayToString, doubleDigitToNumber, doubleDigitToString } from "./utils
 
 
 type Board = [
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
 ]
 
 type BoardAbstract = [
@@ -126,7 +126,7 @@ type happyResult = markBoard<Board, 0, 0, 's'>
 
 type x =  doubleDigitToString<random<[1]>>
 type y = doubleDigitToString<random<[2]>>
-type boardfeed = arrayToString<markBoard<Board, x, y, 's'>[6]>
+//type boardfeed = array2DToString<markBoard<Board, x, y, 's'>[6]>
 
 type gameLoop<callback> = { [i in number]: callback }
 
