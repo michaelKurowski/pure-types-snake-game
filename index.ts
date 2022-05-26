@@ -4,7 +4,7 @@ import { increment, incrementSingleDigit, decrementSingleDigit } from './utils/a
 // type Register = Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, null >
 
 import { random } from "./utils/arithmetics"
-import { arrayToString, doubleDigitToNumber, doubleDigitToString } from "./utils/typesConversions"
+import { array2DToString, doubleDigitToNumber, doubleDigitToString } from "./utils/typesConversions"
 
 
 /// START of UTILS FUNCTIONS COPIED FROM THE INTERNT
@@ -53,16 +53,16 @@ import { arrayToString, doubleDigitToNumber, doubleDigitToString } from "./utils
 
 
 type Board = [
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
+  [null, null, null, null, null, null, null, null, null, null],
 ]
 
 type BoardAbstract = [
@@ -126,7 +126,7 @@ type happyResult = markBoard<Board, 0, 0, 's'>
 
 type x =  doubleDigitToString<random<[1]>>
 type y = doubleDigitToString<random<[2]>>
-type boardfeed = arrayToString<markBoard<Board, x, y, 's'>[6]>
+//type boardfeed = arrayToString<markBoard<Board, x, y, 's'>[6]>
 
 // type takeFirstLetter<stringOfChars> = stringOfChars extends `${infer firstChar}${infer rest}` ? [firstChar, rest] : never
 
@@ -179,6 +179,7 @@ type checkIsCoordinateOnList<coordinate extends [number, number], list extends [
       : checkIsCoordinateOnList<coordinate, rest>
     : false;
 
+type render = array2DToString<[['                                                        '], ...Board]>
 
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
