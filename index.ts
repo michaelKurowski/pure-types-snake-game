@@ -146,16 +146,16 @@ type gameTick<board, snakeCoordinates, commands> =
 
 /*
   Game tick psuedocode
-  arguments: board, snakeCoordinates, commands, foodCoordinates
+  arguments: board, snakeCoordinates, commands, foodChunkCoordinates
   head = snakeCoordinates[0]
   command = `${firstCommand}${restOfCommands}`
-  if (!restOfCommands) renderBoard<board, snakeCoordinates, foodCoordinates>
+  if (!restOfCommands) renderBoard<board, snakeCoordinates, foodChunkCoordinates>
   newSnakeHead = moveCoordinate<command, head>
   if checkIsCoordinateOnList<newSnakeHead, snakeCoordinates> 
     return null // game over
-  if checkIsCoordinateOnList<newSnakeHead, foodCoordinates> 
+  if checkIsCoordinateOnList<newSnakeHead, foodChunkCoordinates> 
     snakeCoordinates = [newSnakeHead ,...snakeCoordinates]
-    foodCoordinates = removeCoordinateFromList<newSnakeHead, foodCoordinates>
+    foodCoordinates = randomCoordinate<returnEvenNumber<newSnakeHead[0], newSnakeHead[1]>>
     foodCoordinates = 
       [...foodCoordinates, randomCoordinate<[...foodCoordinates, ...snakeCoordinates]>]
   else 
@@ -164,8 +164,15 @@ type gameTick<board, snakeCoordinates, commands> =
   fi
   gameTick<board, snakeCoordinates, restOfCommands, foodCoordinates>
 
-  TODO: randomCoordinate, removeCoordinateFromList<coord, list>
+  TODO: randomCoordinate<excludedList>, removeCoordinateFromList<coord, list>
 */
+
+type returnEvenNumber<numberA, numberB>
+  = numberA extends 0 | 2 | 4 | 6 | 8 ? numberA :
+    numberB extends 0 | 2 | 4 | 6 | 8 ? numberB :
+    numberA
+
+
 
 type moveCoordinate<command extends 'a' | 'w' | 's' | 'd', coordinate extends [number, number]> = 
   command extends 'a' ? [decrementSingleDigit<coordinate[0]>, coordinate[1]] :
