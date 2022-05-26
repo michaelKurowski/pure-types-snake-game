@@ -146,15 +146,25 @@ type gameTick<board, snakeCoordinates, commands> =
 
 /*
   Game tick psuedocode
-  arguments: board, snakeCoordinates, commands
+  arguments: board, snakeCoordinates, commands, foodCoordinates
   head = snakeCoordinates[0]
-  command = pickLastElement<commands>
+  command = `${firstCommand}${restOfCommands}`
+  if (!restOfCommands) renderBoard<board, snakeCoordinates, foodCoordinates>
   newSnakeHead = moveCoordinate<command, head>
   if checkIsCoordinateOnList<newSnakeHead, snakeCoordinates> 
     return null // game over
-  if checkIsCoordinateOnList<newSnakeHead, snakeCoordinates> 
-    return null // game over
-  snakeCoordinates = [moveCoordinate<command, head> ,...snakeCoordinates]
+  if checkIsCoordinateOnList<newSnakeHead, foodCoordinates> 
+    snakeCoordinates = [newSnakeHead ,...snakeCoordinates]
+    foodCoordinates = removeCoordinateFromList<newSnakeHead, foodCoordinates>
+    foodCoordinates = 
+      [...foodCoordinates, randomCoordinate<[...foodCoordinates, ...snakeCoordinates]>]
+  else 
+    snakeCoordinates = [...beginningOfSnake , lastElement]
+    snakeCoordinates = [newSnakeHead ,...snakeCoordinates]
+  fi
+  gameTick<board, snakeCoordinates, restOfCommands, foodCoordinates>
+
+  TODO: randomCoordinate, removeCoordinateFromList<coord, list>
 */
 
 type moveCoordinate<command extends 'a' | 'w' | 's' | 'd', coordinate extends [number, number]> = 
