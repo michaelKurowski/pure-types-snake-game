@@ -139,7 +139,7 @@ type moveSnake<command, snakeCoordinates> = never // TODO
 // [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
 
 type helloworld = startGame<
-  'aaawwwddsasssssa'
+  'wssaaawwwwws'
 >
 type helloworld2 = render<[2,2], [[5, 5]]>
 type startGame<
@@ -154,7 +154,7 @@ type gameLoop<board, commands> = gameTick<board, [[5, 5]], commands, [2,2]>
 //       nextCommands
 //     > :
 //     never
-
+type GAME_OVER = 'You failed miserably'
 type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[], foodChunkCoordinates> = 
   commands extends `${infer currentCommand}${infer restOfCommands}` ?
     snakeCoordinates[0] extends infer head ? 
@@ -177,11 +177,11 @@ type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[
                     movedSnakeCoordinates,
                     restOfCommands,
                     foodChunkCoordinates
-                  : null
-                : null
+                  : GAME_OVER
+                : GAME_OVER
             : never
-          : null
-        : null
+          : GAME_OVER
+        : GAME_OVER
       : never
     : never
   : render<foodChunkCoordinates, snakeCoordinates>
