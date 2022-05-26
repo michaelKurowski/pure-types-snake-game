@@ -1,4 +1,4 @@
-import { increment, incrementSingleDigit, decrementSingleDigit, Digit, DoubleDigit } from './utils/arithmetics';
+import { increment, incrementSingleDigit, decrementSingleDigit, Digit, DoubleDigit, randomX, randomY } from './utils/arithmetics';
 
 // type Pointer = 4
 // type Register = Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, null >
@@ -139,7 +139,7 @@ type moveSnake<command, snakeCoordinates> = never // TODO
 // [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
 
 type helloworld = startGame<
-  ''
+  'wwwaaadda'
 >
 type helloworld2 = render<[2,2], [[5, 5]]>
 type startGame<
@@ -243,8 +243,7 @@ type checkIsCoordinateOnList<coordinate extends [number, number], list extends [
     : false;
 
 
-type randomCoordinate<headX extends Digit[number], headY extends Digit[number]> = [random<[headX]>, random<[headY]>] extends [infer X, infer Y] ? [X[decrementSingleDigit<X["length"]>],Y[decrementSingleDigit<Y["length"]>]] : never;
-
+type randomCoordinate<headX extends Digit[number], headY extends Digit[number]> = [randomX<[headX]>, randomY<[headY]>] extends [infer X, infer Y] ? [X[decrementSingleDigit<X["length"]>],Y[decrementSingleDigit<Y["length"]>]] : never;
 
 type boardPadding = '                                    '
 type columnNumber = '  *    0    1    2    3    4    5    6    7    8    9'            
@@ -256,7 +255,6 @@ type markSnakOnBoard<board extends Board, snakeCoordinates  extends number[][]> 
 type markSnakOnBoardHelper<board extends Board, snakeCoordinates  extends number[][], index extends number> = index extends snakeCoordinates['length'] ? board : 
 markSnakOnBoardHelper<markBoard<board, snakeCoordinates[index][1], snakeCoordinates[index][0], '  s  '>, snakeCoordinates, incrementSingleDigit<index>>
 
-type testtt = render<[3,3], [[3,4]]>
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
 // More info, new in TS: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-5.html#tail-recursion-elimination-on-conditional-types
