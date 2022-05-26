@@ -139,7 +139,7 @@ type moveSnake<command, snakeCoordinates> = never // TODO
 // [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
 
 type helloworld = startGame<
-  'wwwaaadda'
+  'aaawwwddsasssssa'
 >
 type helloworld2 = render<[2,2], [[5, 5]]>
 type startGame<
@@ -167,8 +167,8 @@ type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[
                   longerSnake,
                   restOfCommands,
                   randomCoordinate<
-                    newSnakeHead[0],
-                    newSnakeHead[1]>
+                    newHead[0],
+                    newHead[1]>
                   >
                 : 
                 removeLastElement<longerSnake> extends infer movedSnakeCoordinates ? // if we don't eat we remove last element
@@ -187,7 +187,13 @@ type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[
   : render<foodChunkCoordinates, snakeCoordinates>
                 
     // : render<board, snakeCoordinates, foodChunkCoordinates>
+
 /*
+  TODO: snake przestaje jesc smaczki w pewnym
+
+*/
+
+    /*
   Game tick psuedocode
   arguments: board, snakeCoordinates, commands, foodChunkCoordinates
   head = snakeCoordinates[0]
