@@ -162,7 +162,7 @@ type gameTick<board, snakeCoordinates, commands> =
   fi
   gameTick<board, snakeCoordinates, restOfCommands, foodChunkCoordinates>
 
-  TODO: randomCoordinate<excludedList>, removeCoordinateFromList<coord, list>
+  TODO: randomCoordinate<excludedList>
 */
 
 type returnEvenNumber<numberA, numberB>
