@@ -53,16 +53,16 @@ import { removeLastElement } from './utils/arrays'
 
 
 type Board = [
-  [null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null, null],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
+  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
 ]
 
 type BoardAbstract = [
@@ -243,20 +243,17 @@ type checkIsCoordinateOnList<coordinate extends [number, number], list extends [
 type randomCoordinate<headX extends Digit[number], headY extends Digit[number]> = [random<[headX]>, random<[headY]>] extends [infer X, infer Y] ? [X[decrementSingleDigit<X["length"]>],Y[decrementSingleDigit<Y["length"]>]] : never;
 
 
-
-            
+type boardPadding = '                                    '
+type columnNumber = '  *    0    1    2    3    4    5    6    7    8    9'            
 type render<foodCoordinates extends number[], snakeCoordinates extends number[][]> = 
-array2DToString<[
-  ['                                                        '], 
-  ...markSnakOnBoard<markBoard<Board, foodCoordinates[0], foodCoordinates[1], 'x'>, snakeCoordinates>
-]>
+`${boardPadding}${columnNumber}${boardPadding}${array2DToString<markSnakOnBoard<markBoard<Board, foodCoordinates[0], foodCoordinates[1], '  x  '>, snakeCoordinates>>}`
+
 
 type markSnakOnBoard<board extends Board, snakeCoordinates  extends number[][]> = markSnakOnBoardHelper<board, snakeCoordinates, 0> 
 type markSnakOnBoardHelper<board extends Board, snakeCoordinates  extends number[][], index extends number> = index extends snakeCoordinates['length'] ? board : 
-markSnakOnBoardHelper<markBoard<board, snakeCoordinates[index][1], snakeCoordinates[index][0], 's'>, snakeCoordinates, incrementSingleDigit<index>>
+markSnakOnBoardHelper<markBoard<board, snakeCoordinates[index][1], snakeCoordinates[index][0], '  s  '>, snakeCoordinates, incrementSingleDigit<index>>
 
-type testtt = render<[3,3], [[4,5], [4,4], [4,3], [4,2]]>
-
+type testtt = render<[3,3], [[3,4]]>
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
 // More info, new in TS: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-5.html#tail-recursion-elimination-on-conditional-types
