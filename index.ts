@@ -139,7 +139,7 @@ type moveSnake<command, snakeCoordinates> = never // TODO
 // [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
 
 type helloworld = startGame<
-  'w'
+  ''
 >
 type helloworld2 = render<[2,2], [[5, 5]]>
 type startGame<
@@ -164,13 +164,13 @@ type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[
             [newHead, ...snakeCoordinates] extends infer longerSnake ?
               newHead extends foodChunkCoordinates ?
                 gameTick<board,
-                  snakeCoordinates,
+                  longerSnake,
                   restOfCommands,
                   randomCoordinate<
                     newSnakeHead[0],
                     newSnakeHead[1]>
                   >
-              : 
+                : 
                 removeLastElement<longerSnake> extends infer movedSnakeCoordinates ? // if we don't eat we remove last element
                   movedSnakeCoordinates extends number[][] ?
                     gameTick<board,
