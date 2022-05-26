@@ -5,7 +5,7 @@ import { increment, incrementSingleDigit, decrementSingleDigit, Digit, DoubleDig
 
 import { random } from "./utils/arithmetics"
 import { array2DToString, doubleDigitToNumber, doubleDigitToString } from "./utils/typesConversions"
-
+import { removeLastElement } from './utils/arrays'
 
 /// START of UTILS FUNCTIONS COPIED FROM THE INTERNT
 // type OptionalPropertyNames<T> =
@@ -129,21 +129,67 @@ type y = doubleDigitToString<random<[2]>>
 //type boardfeed = arrayToString<markBoard<Board, x, y, 's'>[6]>
 
 // type takeFirstLetter<stringOfChars> = stringOfChars extends `${infer firstChar}${infer rest}` ? [firstChar, rest] : never
+type tesssssttt<str> = str extends `${infer firstChar}${infer rest}` ? [firstChar, rest] : never
+
 
 type moveSnake<command, snakeCoordinates> = never // TODO
-
+// type removeLast<arr> = arr extends [...infer firstOnes, infer last] ? last : false
+// type rezo = removeLast<[1,2,3]>
 // snake coords is array of arrays
 // [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
-type gameLoop<board, commands> = gameTick<board, [[5, 5]], commands>
-type gameTick<board, snakeCoordinates, commands> = 
-  commands extends `${infer currentCommand}${infer nextCommands}` ?
-    gameTick<
-      board,
-      moveSnake<currentCommand, snakeCoordinates>,
-      nextCommands
-    > :
-    never
 
+type helloworld = startGame<
+  'w'
+>
+type helloworld2 = render<[2,2], [[5, 5]]>
+type startGame<
+  commmands
+> = gameLoop<Board, commmands>
+type gameLoop<board, commands> = gameTick<board, [[5, 5]], commands, [2,2]>
+// type gameTick<board, snakeCoordinates, commands> = 
+//   commands extends `${infer currentCommand}${infer nextCommands}` ?
+//     gameTick<
+//       board,
+//       moveSnake<currentCommand, snakeCoordinates>,
+//       nextCommands
+//     > :
+//     never
+
+type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[], foodChunkCoordinates> = 
+  commands extends `${infer currentCommand}${infer restOfCommands}` ?
+    snakeCoordinates[0] extends infer head ? 
+      moveCoordinate<currentCommand, head> extends infer newHead ?
+        checkIsCoordinateWithinMapBoundries<newHead> extends true ?
+          checkIsCoordinateOnList<newHead, snakeCoordinates> extends false ?
+            [newHead, ...snakeCoordinates] extends infer longerSnake ?
+              newHead extends foodChunkCoordinates ?
+                gameTick<board,
+                  snakeCoordinates,
+                  restOfCommands,
+                  randomCoordinate<
+                    newSnakeHead[0],
+                    newSnakeHead[1]>
+                  >
+              : 
+                removeLastElement<longerSnake> extends infer movedSnakeCoordinates ? // if we don't eat we remove last element
+                  movedSnakeCoordinates extends number[][] ?
+                    gameTick<board,
+                    movedSnakeCoordinates,
+                    restOfCommands,
+                    randomCoordinate<
+                      newSnakeHead[0],
+                      newSnakeHead[1]>
+                    >
+                  : null
+                : null
+            : never
+          : null
+        : null
+      : never
+    : never
+  : render<foodChunkCoordinates, snakeCoordinates>
+                
+    // : render<board, snakeCoordinates, foodChunkCoordinates>
 /*
   Game tick psuedocode
   arguments: board, snakeCoordinates, commands, foodChunkCoordinates
@@ -151,18 +197,20 @@ type gameTick<board, snakeCoordinates, commands> =
   command = `${firstCommand}${restOfCommands}`
   if (!restOfCommands) renderBoard<board, snakeCoordinates, foodChunkCoordinates>
   newSnakeHead = moveCoordinate<command, head>
+  if checkIsCoordinateWithinMapBoundries<newSnakeHead>
+    return null // game over
   if checkIsCoordinateOnList<newSnakeHead, snakeCoordinates> 
     return null // game over
   if checkIsCoordinateOnList<newSnakeHead, foodChunkCoordinates> 
     snakeCoordinates = [newSnakeHead ,...snakeCoordinates]
-    foodChunkCoordinates = randomCoordinate<returnEvenNumber<newSnakeHead[0], newSnakeHead[1]>>
+    foodChunkCoordinates = randomCoordinate<newSnakeHead[0], newSnakeHead[1]>
   else 
     snakeCoordinates = [...beginningOfSnake , lastElement]
     snakeCoordinates = [newSnakeHead ,...snakeCoordinates]
   fi
   gameTick<board, snakeCoordinates, restOfCommands, foodChunkCoordinates>
 
-  TODO: randomCoordinate<excludedList>, removeCoordinateFromList<coord, list>
+  TODO: randomCoordinate<excludedList>, render<board, snakeCoordinates, foodChunkCoordinates>
 */
 
 type returnEvenNumber<numberA, numberB>

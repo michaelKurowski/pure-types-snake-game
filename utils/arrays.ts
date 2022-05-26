@@ -12,3 +12,6 @@ type GetArrayLength<arr extends DoubleDigit, index extends number> =
   arr[index] extends undefined ? index : GetArrayLength<arr,  incrementSingleDigit<index>>
 
 export type repeat<times extends number, digit extends DoubleDigit> = times extends 1 ? digit : repeat<decrementSingleDigit<times>, [0, ...digit]>
+
+export type removeLastElement<arr> =
+  arr extends [...infer firstElements, infer last] ? firstElements : null
