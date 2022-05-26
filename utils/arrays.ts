@@ -6,6 +6,8 @@ export type setArrayElement<arr extends Array<any>, index extends number, value>
 
 
 type GetArrayLengthWrapper<arr extends DoubleDigit> = GetArrayLength<arr, 0>
+
+// Czy arr["lenght"] nie wystarczy?
 type GetArrayLength<arr extends DoubleDigit, index extends number> =
   arr[index] extends undefined ? index : GetArrayLength<arr,  incrementSingleDigit<index>>
 
