@@ -155,7 +155,8 @@ type gameLoop<board, commands> = gameTick<board, [[5, 5]], commands, [2,2]>
 //     never
 type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[], foodChunkCoordinates> = 
   commands extends `${infer currentCommand}${infer restOfCommands}` ?
-    snakeCoordinates[0] extends infer head ? 
+    restOfCommands extends '' ? render<foodCoordinates, snakeCoordinates>
+    : snakeCoordinates[0] extends infer head ? 
       moveCoordinate<currentCommand, head> extends infer newHead ?
         checkIsCoordinateWithinMapBoundries<newHead> extends true ?
           checkIsCoordinateOnList<newHead, snakeCoordinates> extends false ?
