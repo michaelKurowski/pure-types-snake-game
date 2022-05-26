@@ -143,17 +143,22 @@ type gameTick<board, snakeCoordinates, commands> =
       nextCommands
     > :
     never
-/*
-  TODO:
-  checkIsCoordinateWithinMapBoundries<coordinate>
-    sprawdza czy koordunat nie ma x/y ustawionego na -1/11
-  checkIsCoordinateOnList<coordinate, list>
-    sprawdza czy koordynat znajduje sie na liscie, 
-    moze byc uzywany do sprawdzenia czy w nastepnym kroku
-    skoliduje ze swoim cialem lub smaczkiem gdzie cialo to bedzie lista np koordynatow.
-    Przy smaczku powinien rowniez zwracac ktory to smaczek
+type checkIsCoordinateWithinMapBoundries<coordinate extends [number, number]>
+  = coordinate[0] extends (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9) ? 
+      coordinate[1] extends (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9) ? true 
+      : false
+    : false
+// type checkIsCoordinateOnList<coordinate extends [number, number], list extends [number, number][]>
+//   = checkIsCoordinateOnListHelper<coordinate, list>
+// type checkIsCoordinateOnListHelper<coordinate extends [number, number], list extends [number, number][]>
+//   = coordinate['length'] extends 0 ? false : [0, ...]
+type checkIsCoordinateOnList<coordinate extends [number, number], list extends [number, number][]>
+  = list extends [infer first, ...infer rest] ?
+      first extends coordinate ? true 
+      : checkIsCoordinateOnList<coordinate, rest>
+    : false;
 
-*/
+
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
 // More info, new in TS: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-5.html#tail-recursion-elimination-on-conditional-types
