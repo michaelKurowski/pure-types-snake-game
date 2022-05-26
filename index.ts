@@ -176,10 +176,7 @@ type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[
                     gameTick<board,
                     movedSnakeCoordinates,
                     restOfCommands,
-                    randomCoordinate<
-                      newSnakeHead[0],
-                      newSnakeHead[1]>
-                    >
+                    foodChunkCoordinates
                   : null
                 : null
             : never
