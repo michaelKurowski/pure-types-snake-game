@@ -150,6 +150,10 @@ type gameTick<board, snakeCoordinates, commands> =
   head = snakeCoordinates[0]
   command = pickLastElement<commands>
   newSnakeHead = moveCoordinate<command, head>
+  if checkIsCoordinateOnList<newSnakeHead, snakeCoordinates> 
+    return null // game over
+  if checkIsCoordinateOnList<newSnakeHead, snakeCoordinates> 
+    return null // game over
   snakeCoordinates = [moveCoordinate<command, head> ,...snakeCoordinates]
 */
 
