@@ -1,4 +1,4 @@
-import { increment, incrementSingleDigit, decrementSingleDigit } from './utils/arithmetics';
+import { increment, incrementSingleDigit, decrementSingleDigit, Digit, DoubleDigit } from './utils/arithmetics';
 
 // type Pointer = 4
 // type Register = Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, null >
@@ -194,7 +194,23 @@ type checkIsCoordinateOnList<coordinate extends [number, number], list extends [
       : checkIsCoordinateOnList<coordinate, rest>
     : false;
 
-type render = array2DToString<[['                                                        '], ...Board]>
+
+type randomCoordinate<headX extends Digit[number], headY extends Digit[number]> = [random<[headX]>, random<[headY]>] extends [infer X, infer Y] ? [X[decrementSingleDigit<X["length"]>],Y[decrementSingleDigit<Y["length"]>]] : never;
+
+
+
+            
+type render<foodCoordinates extends number[], snakeCoordinates extends number[][]> = 
+array2DToString<[
+  ['                                                        '], 
+  ...markSnakOnBoard<markBoard<Board, foodCoordinates[0], foodCoordinates[1], 'x'>, snakeCoordinates>
+]>
+
+type markSnakOnBoard<board extends Board, snakeCoordinates  extends number[][]> = markSnakOnBoardHelper<board, snakeCoordinates, 0> 
+type markSnakOnBoardHelper<board extends Board, snakeCoordinates  extends number[][], index extends number> = index extends snakeCoordinates['length'] ? board : 
+markSnakOnBoardHelper<markBoard<board, snakeCoordinates[index][0], snakeCoordinates[index][1], 's'>, snakeCoordinates, incrementSingleDigit<index>>
+
+type testtt = render<[3,3], [[4,5], [4,4], [4,3], [4,2]]>
 
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
