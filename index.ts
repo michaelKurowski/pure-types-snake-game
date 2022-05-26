@@ -1,4 +1,4 @@
-
+import { increment, incrementSingleDigit, decrementSingleDigit } from './utils/arithmetics';
 
 // type Pointer = 4
 // type Register = Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, null >
@@ -128,7 +128,56 @@ type x =  doubleDigitToString<random<[1]>>
 type y = doubleDigitToString<random<[2]>>
 //type boardfeed = arrayToString<markBoard<Board, x, y, 's'>[6]>
 
-type gameLoop<callback> = { [i in number]: callback }
+// type takeFirstLetter<stringOfChars> = stringOfChars extends `${infer firstChar}${infer rest}` ? [firstChar, rest] : never
+
+type moveSnake<command, snakeCoordinates> = never // TODO
+
+// snake coords is array of arrays
+// [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
+type gameLoop<board, commands> = gameTick<board, [[5, 5]], commands>
+type gameTick<board, snakeCoordinates, commands> = 
+  commands extends `${infer currentCommand}${infer nextCommands}` ?
+    gameTick<
+      board,
+      moveSnake<currentCommand, snakeCoordinates>,
+      nextCommands
+    > :
+    never
+
+/*
+  Game tick psuedocode
+  arguments: board, snakeCoordinates, commands
+  head = snakeCoordinates[0]
+  command = pickLastElement<commands>
+  newSnakeHead = moveCoordinate<command, head>
+  if checkIsCoordinateOnList<newSnakeHead, snakeCoordinates> 
+    return null // game over
+  if checkIsCoordinateOnList<newSnakeHead, snakeCoordinates> 
+    return null // game over
+  snakeCoordinates = [moveCoordinate<command, head> ,...snakeCoordinates]
+*/
+
+type moveCoordinate<command, coordinate> = 
+  command extends 'a' ? [decrementSingleDigit<coordinate[0]>, coordinate[1]] :
+  command extends 'w' ? [coordinate[0], decrementSingleDigit<coordinate[1]>] :
+  command extends 's' ? [coordinate[0], incrementSingleDigit<coordinate[1]>] :
+  command extends 'd' ? [incrementSingleDigit<coordinate[0]>, coordinate[1]] :
+  null
+
+type checkIsCoordinateWithinMapBoundries<coordinate extends [number, number]>
+  = coordinate[0] extends (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9) ? 
+      coordinate[1] extends (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9) ? true 
+      : false
+    : false
+// type checkIsCoordinateOnList<coordinate extends [number, number], list extends [number, number][]>
+//   = checkIsCoordinateOnListHelper<coordinate, list>
+// type checkIsCoordinateOnListHelper<coordinate extends [number, number], list extends [number, number][]>
+//   = coordinate['length'] extends 0 ? false : [0, ...]
+type checkIsCoordinateOnList<coordinate extends [number, number], list extends [number, number][]>
+  = list extends [infer first, ...infer rest] ?
+      first extends coordinate ? true 
+      : checkIsCoordinateOnList<coordinate, rest>
+    : false;
 
 type render = array2DToString<[['                                                        '], ...Board]>
 
