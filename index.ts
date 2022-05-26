@@ -1,4 +1,4 @@
-import { increment } from './utils/arithmetics';
+import { increment, incrementSingleDigit, decrementSingleDigit } from './utils/arithmetics';
 
 // type Pointer = 4
 // type Register = Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, null >
@@ -143,6 +143,23 @@ type gameTick<board, snakeCoordinates, commands> =
       nextCommands
     > :
     never
+
+/*
+  Game tick psuedocode
+  arguments: board, snakeCoordinates, commands
+  head = snakeCoordinates[0]
+  command = pickLastElement<commands>
+  newSnakeHead = moveCoordinate<command, head>
+  snakeCoordinates = [moveCoordinate<command, head> ,...snakeCoordinates]
+*/
+
+type moveCoordinate<command, coordinate> = 
+  command extends 'a' ? [decrementSingleDigit<coordinate[0]>, coordinate[1]] :
+  command extends 'w' ? [coordinate[0], decrementSingleDigit<coordinate[1]>] :
+  command extends 's' ? [coordinate[0], incrementSingleDigit<coordinate[1]>] :
+  command extends 'd' ? [incrementSingleDigit<coordinate[0]>, coordinate[1]] :
+  null
+
 type checkIsCoordinateWithinMapBoundries<coordinate extends [number, number]>
   = coordinate[0] extends (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9) ? 
       coordinate[1] extends (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9) ? true 
