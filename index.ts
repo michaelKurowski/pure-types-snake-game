@@ -139,7 +139,7 @@ type moveSnake<command, snakeCoordinates> = never // TODO
 // [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
 
 type helloworld = startGame<
-  'wssaaawwwwws'
+  'wwwaaaassssdd'
 >
 type helloworld2 = render<[2,2], [[5, 5]]>
 type startGame<
@@ -251,7 +251,7 @@ type randomCoordinate<headX extends Digit[number], headY extends Digit[number]> 
 type boardPadding = '                                    '
 type columnNumber = '  *    0    1    2    3    4    5    6    7    8    9'            
 type render<foodCoordinates extends number[], snakeCoordinates extends number[][]> = 
-`${boardPadding}${columnNumber}${boardPadding}${array2DToString<markSnakOnBoard<markBoard<Board, foodCoordinates[0], foodCoordinates[1], '  x  '>, snakeCoordinates>>}`
+`${boardPadding}${columnNumber}${boardPadding}${array2DToString<markSnakOnBoard<markBoard<Board, foodCoordinates[1], foodCoordinates[0], '  x  '>, snakeCoordinates>>}`
 
 
 type markSnakOnBoard<board extends Board, snakeCoordinates  extends number[][]> = markSnakOnBoardHelper<board, snakeCoordinates, 0> 
