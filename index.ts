@@ -5,7 +5,7 @@ import { increment, incrementSingleDigit, decrementSingleDigit, Digit, DoubleDig
 
 import { random } from "./utils/arithmetics"
 import { array2DToString, doubleDigitToNumber, doubleDigitToString } from "./utils/typesConversions"
-import { removeLastElement } from './utils/arrays'
+import { removeLastElement, pickLastEelementOfArray } from './utils/arrays'
 
 /// START of UTILS FUNCTIONS COPIED FROM THE INTERNT
 // type OptionalPropertyNames<T> =
@@ -139,7 +139,7 @@ type moveSnake<command, snakeCoordinates> = never // TODO
 // [[firstChunkCoords], [secondChunkCoords], [thirdChunkCoords]]...
 
 type helloworld = startGame<
-  'wwwaaaassssdd'
+  'wwwaaawddddssssaaassdwa'
 >
 type helloworld2 = render<[2,2], [[5, 5]]>
 type startGame<
@@ -163,13 +163,15 @@ type gameTick<board, snakeCoordinates, commands extends ('a' | 'w' | 's' | 'd')[
           checkIsCoordinateOnList<newHead, snakeCoordinates> extends false ?
             [newHead, ...snakeCoordinates] extends infer longerSnake ?
               newHead extends foodChunkCoordinates ?
-                gameTick<board,
-                  longerSnake,
-                  restOfCommands,
-                  randomCoordinate<
-                    newHead[0],
-                    newHead[1]>
-                  >
+                  pickLastEelementOfArray<snakeCoordinates> extends infer lastSnakePiece ?
+                  gameTick<board,
+                    longerSnake,
+                    restOfCommands,
+                    randomCoordinate<
+                      lastSnakePiece[1],
+                      lastSnakePiece[0]>
+                    >
+                  : 'An error occured, no last piece of snake found'
                 : 
                 removeLastElement<longerSnake> extends infer movedSnakeCoordinates ? // if we don't eat we remove last element
                   movedSnakeCoordinates extends number[][] ?
