@@ -21,7 +21,7 @@ type markBoard<board extends ((null | string)[])[], x extends number | string, y
     [rowNumber in keyof board]: rowNumber extends `${x}` ? mapColumn<board[rowNumber], y, value> : board[rowNumber]
   }
 
-type boardPadding = '                                    '
+type boardPadding = '                                                                                                            '
 type columnNumber = `${boardPadding}  *  0  1  2  3  4  5  6  7  8  9${boardPadding}`   
 export type render<foodCoordinates extends number[], snakeCoordinates extends number[][]> = 
 `${boardPadding}${columnNumber}${boardPadding}${boardToString<markSnakOnBoard<markBoard<Board, foodCoordinates[1], foodCoordinates[0], ' x '>, snakeCoordinates>>}`
