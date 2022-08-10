@@ -1,30 +1,10 @@
 import { incrementSingleDigit, decrementSingleDigit, Digit, randomX, randomY } from './utils/arithmetics';
-import { array2DToString } from "./utils/typesConversions"
 import { removeLastElement, pickLastEelementOfArray } from './utils/arrays'
-
-type Board = [
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-  ['     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     ', '     '],
-]
-
-type mapColumn<column extends Board[number], y, value> =
-  {[elementNumber in keyof column]: elementNumber extends `${y}` ? value : column[elementNumber]}
-
-type markBoard<board extends ((null | string)[])[], x extends number | string, y extends number | string, value extends string> =
-   {
-    [rowNumber in keyof board]: rowNumber extends `${x}` ? mapColumn<board[rowNumber], y, value> : board[rowNumber]
-  }
+import { render } from './utils/rendering'
+import { Board } from './utils/board'
 
 type helloworld = startGame<
-  'wwwaaasdd'
+  'wa'
 >
 type startGame<
   commmands
@@ -86,15 +66,15 @@ type checkIsCoordinateOnList<coordinate extends [number, number], list extends [
 
 type randomCoordinate<headX extends Digit[number], headY extends Digit[number]> = [randomX<[headX]>, randomY<[headY]>] extends [infer X, infer Y] ? [X[decrementSingleDigit<X["length"]>],Y[decrementSingleDigit<Y["length"]>]] : never;
 
-type boardPadding = '                                    '
-type columnNumber = '  *    0    1    2    3    4    5    6    7    8    9'            
-type render<foodCoordinates extends number[], snakeCoordinates extends number[][]> = 
-`${boardPadding}${columnNumber}${boardPadding}${array2DToString<markSnakOnBoard<markBoard<Board, foodCoordinates[1], foodCoordinates[0], '  x  '>, snakeCoordinates>>}`
+// type boardPadding = '                                    '
+// type columnNumber = '  *    0    1    2    3    4    5    6    7    8    9'            
+// type render<foodCoordinates extends number[], snakeCoordinates extends number[][]> = 
+// `${boardPadding}${columnNumber}${boardPadding}${array2DToString<markSnakOnBoard<markBoard<Board, foodCoordinates[1], foodCoordinates[0], '  x  '>, snakeCoordinates>>}`
 
 
-type markSnakOnBoard<board extends Board, snakeCoordinates  extends number[][]> = markSnakOnBoardHelper<board, snakeCoordinates, 0> 
-type markSnakOnBoardHelper<board extends Board, snakeCoordinates  extends number[][], index extends number> = index extends snakeCoordinates['length'] ? board : 
-markSnakOnBoardHelper<markBoard<board, snakeCoordinates[index][1], snakeCoordinates[index][0], '  s  '>, snakeCoordinates, incrementSingleDigit<index>>
+// type markSnakOnBoard<board extends Board, snakeCoordinates  extends number[][]> = markSnakOnBoardHelper<board, snakeCoordinates, 0> 
+// type markSnakOnBoardHelper<board extends Board, snakeCoordinates  extends number[][], index extends number> = index extends snakeCoordinates['length'] ? board : 
+// markSnakOnBoardHelper<markBoard<board, snakeCoordinates[index][1], snakeCoordinates[index][0], '  s  '>, snakeCoordinates, incrementSingleDigit<index>>
 
 // non optimized ones, according to https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
 // using extended conditional types helps to deter computations
