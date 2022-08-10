@@ -12,7 +12,7 @@ x extends '7' ? 7 :
 x extends '8' ? 8 :
 x extends '9' ? 9 : never;
 
-type leftTrimNumStirng<s extends string> =
+export type leftTrimNumStirng<s extends string> =
   s extends `${'000000000'}${infer w}` ? w : 
   s extends `${'00000000'}${infer w}` ? w : 
   s extends `${'0000000'}${infer w}` ? w : 
@@ -28,10 +28,6 @@ type parseDigitsHelper<x, acc extends number[]> =
 export type parseDigits<x> = parseDigitsHelper<x, []>
 
 
-export type doubleDigitToString<digit extends any[], separator extends string =''> = leftTrimNumStirng<doubleDigitToStringHelper<digit, 0, separator>>
-
-type doubleDigitToStringHelper<digit extends any[], index extends number, separator extends string, result extends string = ''> = 
-index extends digit["length"] ? result : doubleDigitToStringHelper<digit, incrementSingleDigit<index>, separator, `${result}${digit[index]}${separator}`>  
 
 export type stringToNumber<s extends string> = stringToNumberHelper<s>
 type stringToNumberHelper<s extends string, A extends any[] = []> = s extends keyof [0, ...A] ? A["length"] : stringToNumberHelper<s, [0, ...A]>

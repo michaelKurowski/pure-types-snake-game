@@ -4,7 +4,7 @@ import { render } from './utils/rendering'
 import { Board } from './utils/board'
 
 type helloworld = startGame<
-  'wa'
+  'wawwaawwaa'
 >
 type startGame<
   commmands
