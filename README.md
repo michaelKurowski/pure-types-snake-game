@@ -6,3 +6,6 @@ These are treated as a classic game controls.
 
 `S` symbols represent snake, `X` is food.
 Like in the original, snake goes around and eats food that makes it grow, once food is eaten, new one is generated in a random spot.
+
+
+The whole game is written using TypeScript's types alone, without any classic programming code.
